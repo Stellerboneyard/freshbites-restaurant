@@ -1020,10 +1020,19 @@ $('res-form').addEventListener('submit',e=>{
 
 /* ═══ ADMIN LOGIN ═══ */
 let isLoggedIn=false;
-function openAdmin(e){if(e)e.preventDefault();$('nav-links').classList.remove('open');if(isLoggedIn){$('dashboard').classList.add('open');document.body.style.overflow='hidden';loadDashboard()}else{$('login-modal').classList.add('open');$('admin-pass').focus()}}
-$('admin-btn').addEventListener('click',openAdmin);
-if($('admin-btn-mobile'))$('admin-btn-mobile').addEventListener('click',openAdmin);
-if($('admin-fab'))$('admin-fab').addEventListener('click',openAdmin);
+function openAdmin(e,fromMobile){
+  if(e)e.preventDefault();
+  if(e)e.stopPropagation();
+  $('nav-links').classList.remove('open');
+  const doOpen=()=>{
+    if(isLoggedIn){$('dashboard').classList.add('open');document.body.style.overflow='hidden';loadDashboard()}
+    else{$('login-modal').classList.add('open');setTimeout(()=>{$('admin-pass').focus()},100)}
+  };
+  if(fromMobile){setTimeout(doOpen,350)}else{doOpen()}
+}
+$('admin-btn').addEventListener('click',e=>openAdmin(e,false));
+if($('admin-btn-mobile'))$('admin-btn-mobile').addEventListener('click',e=>openAdmin(e,true));
+if($('admin-fab'))$('admin-fab').addEventListener('click',e=>openAdmin(e,false));
 $('login-cancel').addEventListener('click',()=>$('login-modal').classList.remove('open'));
 $('login-btn').addEventListener('click',()=>{
   if($('admin-pass').value===getPass()){$('login-modal').classList.remove('open');isLoggedIn=true;$('dashboard').classList.add('open');document.body.style.overflow='hidden';loadDashboard();$('admin-pass').value='';$('login-error').style.display='none';$('admin-btn').textContent='⚙ Dashboard'}
