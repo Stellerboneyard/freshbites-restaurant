@@ -359,6 +359,8 @@ body{font-family:var(--font-sans);background:var(--green-900);color:var(--text-l
 .login-box p{font-size:.85rem;color:var(--text-muted);margin-bottom:28px}
 .login-box .form-group{text-align:left}
 .login-error{display:none;color:var(--red);font-size:.82rem;margin-top:12px}
+.login-reset{background:none;border:none;color:var(--text-muted);font-size:.72rem;margin-top:14px;cursor:pointer;text-decoration:underline;font-family:var(--font-sans);padding:6px}
+.login-reset:hover{color:var(--amber)}
 
 /* Keyframes */
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -373,7 +375,8 @@ body{font-family:var(--font-sans);background:var(--green-900);color:var(--text-l
   .cursor-dot,.cursor-ring,#cursor-splash-container{display:none!important}
   body,.btn-reserve,.btn-primary,.btn-outline,.btn-add,.tab,.nav-link,.burger,.social-btn,
   .cms-edit-btn,.cms-del-btn,.dash-tab,.dash-close,.dash-logout,.cart-item-remove,.nav-admin,
-  .form-group input,.form-group select,.form-group textarea,.cms-input,.pay-input,.btn-direction{cursor:auto!important}
+  .form-group input,.form-group select,.form-group textarea,.cms-input,.pay-input,.btn-direction,
+  .login-reset,.mobile-admin-fab{cursor:auto!important}
 }
 
 /* Mobile Admin FAB */
@@ -466,10 +469,11 @@ body{font-family:var(--font-sans);background:var(--green-900);color:var(--text-l
     <div class="login-box">
       <h3>🔐 Admin Login</h3>
       <p>Access your restaurant dashboard</p>
-      <div class="form-group"><label for="admin-pass">Password</label><input type="password" id="admin-pass" placeholder="Enter admin password" /></div>
+      <div class="form-group"><label for="admin-pass">Password</label><input type="password" id="admin-pass" placeholder="Enter admin password" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" /></div>
       <button class="btn-primary full-width" id="login-btn" style="margin-top:16px">Enter Dashboard</button>
       <div class="login-error" id="login-error">Incorrect password.</div>
       <button class="btn-outline full-width btn-sm" id="login-cancel" style="margin-top:10px;padding:10px">Cancel</button>
+      <button class="login-reset" id="login-reset">🔄 Forgot password? Reset to default</button>
     </div>
   </div>
 
@@ -618,10 +622,10 @@ body{font-family:var(--font-sans);background:var(--green-900);color:var(--text-l
         <div class="cms-form">
           <h3>🔐 Admin Security</h3>
           <div class="cms-row cms-row-2">
-            <div><label class="cms-label">Current Password</label><input class="cms-input" id="sec-current" type="password" placeholder="Enter current password" /></div>
-            <div><label class="cms-label">New Password</label><input class="cms-input" id="sec-new" type="password" placeholder="Enter new password" /></div>
+            <div><label class="cms-label">Current Password</label><input class="cms-input" id="sec-current" type="password" placeholder="Enter current password" autocapitalize="off" autocorrect="off" /></div>
+            <div><label class="cms-label">New Password</label><input class="cms-input" id="sec-new" type="password" placeholder="Enter new password" autocapitalize="off" autocorrect="off" /></div>
           </div>
-          <div style="margin-top:4px;margin-bottom:16px"><label class="cms-label">Confirm New Password</label><input class="cms-input" id="sec-confirm" type="password" placeholder="Confirm new password" style="max-width:49%" /></div>
+          <div style="margin-top:4px;margin-bottom:16px"><label class="cms-label">Confirm New Password</label><input class="cms-input" id="sec-confirm" type="password" placeholder="Confirm new password" style="max-width:49%" autocapitalize="off" autocorrect="off" /></div>
           <div class="cms-actions"><button class="btn-primary btn-sm" id="sec-save">🔑 Change Password</button></div>
           <div class="cms-save-msg" id="sec-save-msg">✅ Password changed successfully!</div>
           <div class="cms-save-msg" id="sec-error-msg" style="background:rgba(224,82,82,.1);color:var(--red)"></div>
@@ -927,7 +931,7 @@ let mouseX=0,mouseY=0,ringX=0,ringY=0;
 const COLORS=['rgba(90,182,110,.8)','rgba(46,107,62,.65)','rgba(232,160,69,.7)','rgba(184,240,195,.6)','rgba(255,255,255,.35)'];
 document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;cursorDot.style.left=mouseX+'px';cursorDot.style.top=mouseY+'px'});
 (function lr(){ringX+=(mouseX-ringX)*.14;ringY+=(mouseY-ringY)*.14;cursorRing.style.left=ringX+'px';cursorRing.style.top=ringY+'px';requestAnimationFrame(lr)})();
-function bindCursorHover(){document.querySelectorAll('a,button,.tab,.menu-card,.gallery-item,.pill,.social-btn,.cms-edit-btn,.cms-del-btn,.dash-tab,.dash-close,.dash-logout,.btn-direction').forEach(el=>{el.onmouseenter=()=>{cursorDot.classList.add('hovering');cursorRing.classList.add('hovering')};el.onmouseleave=()=>{cursorDot.classList.remove('hovering');cursorRing.classList.remove('hovering')};})}
+function bindCursorHover(){document.querySelectorAll('a,button,.tab,.menu-card,.gallery-item,.pill,.social-btn,.cms-edit-btn,.cms-del-btn,.dash-tab,.dash-close,.dash-logout,.btn-direction').forEach(el=>{el.onmouseenter=()=>{cursorDot.classList.add('hovering');cursorRing.classList.add('hovering')};el.onmouseleave=()=>{cursorDot.classList.remove('hovering');cursorRing.classList.remove('hovering')}})}
 bindCursorHover();
 document.addEventListener('click',e=>{for(let i=0;i<Math.floor(rand(8,14));i++){const p=document.createElement('div');p.className='splash-particle';const sz=rand(5,14),a=rand(0,360),d=rand(30,110),tx=d*Math.cos(a*Math.PI/180),ty=d*Math.sin(a*Math.PI/180);p.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;width:${sz}px;height:${sz}px;background:${COLORS[Math.floor(rand(0,5))]};--tx:translateX(${tx}px);--ty:translateY(${ty}px)`;splashCont.appendChild(p);setTimeout(()=>p.remove(),750)}});
 
@@ -1035,12 +1039,24 @@ if($('admin-btn-mobile'))$('admin-btn-mobile').addEventListener('click',e=>openA
 if($('admin-fab'))$('admin-fab').addEventListener('click',e=>openAdmin(e,false));
 $('login-cancel').addEventListener('click',()=>$('login-modal').classList.remove('open'));
 $('login-btn').addEventListener('click',()=>{
-  if($('admin-pass').value===getPass()){$('login-modal').classList.remove('open');isLoggedIn=true;$('dashboard').classList.add('open');document.body.style.overflow='hidden';loadDashboard();$('admin-pass').value='';$('login-error').style.display='none';$('admin-btn').textContent='⚙ Dashboard'}
+  const entered=$('admin-pass').value.trim();
+  if(entered===getPass()){$('login-modal').classList.remove('open');isLoggedIn=true;$('dashboard').classList.add('open');document.body.style.overflow='hidden';loadDashboard();$('admin-pass').value='';$('login-error').style.display='none';$('admin-btn').textContent='⚙ Dashboard'}
   else{$('login-error').style.display='block'}
 });
 $('admin-pass').addEventListener('keydown',e=>{if(e.key==='Enter')$('login-btn').click()});
 $('dash-close').addEventListener('click',()=>{$('dashboard').classList.remove('open');document.body.style.overflow=''});
 $('dash-logout').addEventListener('click',()=>{isLoggedIn=false;$('dashboard').classList.remove('open');document.body.style.overflow='';$('admin-btn').textContent='⚙ Admin'});
+
+/* Reset Password Button */
+$('login-reset').addEventListener('click',()=>{
+  if(confirm('Reset password to default "freshbitesadmin"?')){
+    localStorage.removeItem('fb_admin_pass');
+    $('login-error').style.display='none';
+    $('admin-pass').value='';
+    $('admin-pass').placeholder='Password reset! Use: freshbitesadmin';
+    alert('✅ Password reset to: freshbitesadmin');
+  }
+});
 
 /* ═══ DASHBOARD ═══ */
 function loadDashboard(){updateDashStats();renderBookingsTable();renderOrdersTable();renderCMSList();loadBizPanel();loadSeoPanel();loadLocPanel();bindCursorHover()}
